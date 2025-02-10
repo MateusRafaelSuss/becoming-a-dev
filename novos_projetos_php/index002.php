@@ -17,7 +17,9 @@
  ///especiais
 
  //resource
- $arquivo = fopen("index.php", "r");
+ $arquivo = fopen("index.php", "r"); //fopen=file open
  var_dump($arquivo);
  
+ $nulo = NULL; //não existe nenhum valor, não inicia espaço na memoria
+ $vazio = "" //o espaço na memória é iniciado
 ?>

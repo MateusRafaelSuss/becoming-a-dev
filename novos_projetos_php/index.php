@@ -11,6 +11,12 @@
 
 //$nome1 = "João"; ----------- string
 
+//concatenação
+$nome = "Mateus";
+$sobrenome = "Suss";
+$nome_completo = $nome . " " . $sobrenome;
+echo($nome_completo);
+
 
 
 ?>
