@@ -19,8 +19,8 @@ class Programador extends Pessoa{
 
     public function dados(){
         echo get_class($this);
-        echo $this->nome. ", ";
-        echo $this->idade. ", ";
+        echo $this-> nome. ", ";
+        echo $this-> idade. ", ";
         echo $this -> senha;
     }
 
