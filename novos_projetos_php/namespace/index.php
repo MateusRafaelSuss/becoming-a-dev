@@ -1,4 +1,5 @@
 <?php 
+namespace class;
 require_once("config.php");
 use cliente\Cadastro;
 

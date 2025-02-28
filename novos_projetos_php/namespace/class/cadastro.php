@@ -1,4 +1,5 @@
 <?php 
+namespace class;
 class Cadastro{
 
     private $nome; 
