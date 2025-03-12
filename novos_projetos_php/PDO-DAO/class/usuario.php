@@ -80,6 +80,20 @@ public function login($login, $password){
 
 }
 
+public function setData($data){
+        $this -> setIdusuario($data['idusuario']);
+        $this -> setDessenha($data['dessenha']);
+        $this -> setDtcadastro(new DateTime($data['dtcadastro']));
+}
+
+public function insert(){
+    $sql = new Sq();
+    $results = $sql -> select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+        ':LOGIN' => $this -> getDeslogin(),
+        ':PASSWORD' =: $this -> getDessenha()
+    ));
+}
+
 public function __toString(){
     return json_encode(array(
         "idusuario" => $this -> getIdusuario,
