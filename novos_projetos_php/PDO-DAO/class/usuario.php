@@ -38,69 +38,68 @@ class usuario{
             ":ID"=> $id
         ));
 
-        if (isset($result[0])){
-            $row = $result[0];
-            $this -> setIdusuario($row['idusuario']);
-            $this -> setDessenha($row['dessenha']);
-            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
+        if(count($result > 0)){
+            $this -> setData($result[0]);
         }
 
     }
 
-}
-
-public static function getList(){
-    $sql = new Sql;
-    return $sql -> select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
-}
-
-public static function search($login){
-    $sql = new Sql;
-    return $sql -> select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ? ORDER BY deslogin", array(
-        'SEARCH'=> "%". $login ."%"
-    ));
-
-}
-
-public function login($login, $password){
-    $sql = new Sql;
-        $result = $sql -> select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD", array(
-            ":LOGIN"=> $login,
-            ":PASSWORD" => $password
+    public static function getList(){
+        $sql = new Sql;
+        return $sql -> select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+    }
+    
+    public static function search($login){
+        $sql = new Sql;
+        return $sql -> select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ? ORDER BY deslogin", array(
+            'SEARCH'=> "%". $login ."%"
         ));
-
-        if (isset($result[0])){
-            $row = $result[0];
-            $this -> setIdusuario($row['idusuario']);
-            $this -> setDessenha($row['dessenha']);
-            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
-        } else {
-            throw new Exception("Login ou senha invalidos ", 1);
+    
+    }
+    
+    public function login($login, $password){
+        $sql = new Sql;
+            $result = $sql -> select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD", array(
+                ":LOGIN"=> $login,
+                ":PASSWORD" => $password
+            ));
+    
+            if (isset($result[0])){
+                $this -> setData($result[0]);
+            } else {
+                throw new Exception("Login ou senha invalidos ", 1);
+            }
+    
+    }
+    
+    public function setData($data){
+            $this -> setIdusuario($data['idusuario']);
+            $this -> setDessenha($data['dessenha']);
+            $this -> setDtcadastro(new DateTime($data['dtcadastro']));
+    }
+    
+    public function insert(){
+        $sql = new Sql();
+        $results = $sql -> select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+            ':LOGIN' => $this -> getDeslogin(), 
+            ':PASSWORD' => $this -> getDessenha()
+        ));
+        if (count($result) > 0){
+            $this -> setData ($result[0]);
         }
+    }  
+    
+    public function __toString(){
+        return json_encode(array(
+            "idusuario" => $this -> getIdusuario(),
+            "desenha" => $this -> getDessenha(),
+            "dtcadastro" => $this -> getDessenha() ->format("d/m/y H:i:s")
+        ));
+    }
 
 }
 
-public function setData($data){
-        $this -> setIdusuario($data['idusuario']);
-        $this -> setDessenha($data['dessenha']);
-        $this -> setDtcadastro(new DateTime($data['dtcadastro']));
-}
 
-public function insert(){
-    $sql = new Sq();
-    $results = $sql -> select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
-        ':LOGIN' => $this -> getDeslogin(),
-        ':PASSWORD' =: $this -> getDessenha()
-    ));
-}
-
-public function __toString(){
-    return json_encode(array(
-        "idusuario" => $this -> getIdusuario,
-        "desenha" => $this -> getDessenha,
-        "dtcadastro" => $this -> getDessenha ->format("d/m/y H:i:s")
-    ));
-}
 
 
 

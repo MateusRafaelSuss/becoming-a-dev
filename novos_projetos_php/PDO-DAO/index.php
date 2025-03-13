@@ -18,4 +18,9 @@ $usuario = new usuario();
 $usuario -> login("", ""); 
 echo json_encode($usuario);
 
+///Inserir um novo usuario
+$aluno = new usuario();
+$aluno -> setDessenha("12345");
+$aluno -> insert();
+
 ?> 
